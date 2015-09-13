@@ -1,0 +1,54 @@
+
+====================================================================================================
+
+Fix the following warning; see:
+https://techbase.kde.org/Development/Tutorials/Using_KXmlGuiWindow/KF5
+(look in the TODO section)
+
+Why aren't these #pragmas working?:
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include "moc_mainwindow.cpp"
+#pragma GCC diagnostic pop
+
+[ 40%] Building CXX object CMakeFiles/myriad.dir/src/mainwindow.cpp.o
+In file included from /home/james/development/projects/myriad2/src/mainwindow.cpp:69:0:
+/home/james/development/projects/myriad2/build/moc_mainwindow.cpp:88:1: warning: ‘virtual void KMainWindow::showAboutApplication()’ is deprecated [-Wdeprecated-declarations]
+ }
+ ^
+In file included from /usr/include/KF5/KXmlGui/kxmlguiwindow.h:33:0,
+                 from /usr/include/KF5/KXmlGui/KXmlGuiWindow:1,
+                 from /home/james/development/projects/myriad2/src/mainwindow.h:5,
+                 from /home/james/development/projects/myriad2/src/mainwindow.cpp:8:
+/usr/include/KF5/KXmlGui/kmainwindow.h:604:37: note: declared here
+     virtual KXMLGUI_DEPRECATED void showAboutApplication() {}
+                                     ^
+In file included from /home/james/development/projects/myriad2/src/mainwindow.cpp:69:0:
+/home/james/development/projects/myriad2/build/moc_mainwindow.cpp:88:1: warning: ‘virtual void KMainWindow::showAboutApplication()’ is deprecated [-Wdeprecated-declarations]
+ }
+ ^
+In file included from /usr/include/KF5/KXmlGui/kxmlguiwindow.h:33:0,
+                 from /usr/include/KF5/KXmlGui/KXmlGuiWindow:1,
+                 from /home/james/development/projects/myriad2/src/mainwindow.h:5,
+                 from /home/james/development/projects/myriad2/src/mainwindow.cpp:8:
+/usr/include/KF5/KXmlGui/kmainwindow.h:604:37: note: declared here
+     virtual KXMLGUI_DEPRECATED void showAboutApplication() {}
+
+====================================================================================================
+
+>> Unify the target behaviour for the two kinds of processing: allow both files and directories for
+   both.
+>> TODOs everywhere
+>> Tweak default layout: fullscreen; panel widths
+>> Preserve the last input directory when the processor is recreated (copy constructor?)
+>> Remember the mode setting from the last run
+>> Don't allow the QFileDialog name filter to be cleared when merging (or at least check that we're
+   properly handling the case where a non-image file is added as an input).
+>> Prevent non-local files from being selected in the QFileDialog
+>> Sort out valgrind errors
+>> When toggling the mode radio buttons with the keyboard, the focused option is not reset if the 
+>> Interrupt the worker thread when the main window is closed
+   confirmation message box is refused.
+>> Don't allow duplicate targets to be added to the input list
+>> Add interrupt support to ProcessorThread (see old ThumbnailingThread.cpp)
+>> Remember the processing mode from last time.

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+
+    <kcfgfile />    
+    <group name="State">
+        <entry name="Inputs" type="PathList">
+            <default></default>
+            <whatsthis>The items currently in the input target list.</whatsthis>
+        </entry>
+        <entry name="LastInputDir" type="Path">
+            <default></default>
+            <whatsthis>The directory most recently navigated to in the input dialog box.</whatsthis>
+        </entry>
+        <entry name="ProcessingMode" type="Enum">
+            <default>Merge</default>
+            <whatsthis>The type of processing that Myriad is configured to perform.</whatsthis>
+            <choices>
+                <choice name="Merge"></choice>
+                <choice name="Deduplicate"></choice>
+            </choices>
+        </entry>
+    </group>
+</kcfg>

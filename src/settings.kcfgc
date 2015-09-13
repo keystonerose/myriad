@@ -1,0 +1,6 @@
+File=settings.kcfg
+ClassName=Settings
+Mutators=true
+NameSpace=myriad
+SetUserTexts=true
+Singleton=true
