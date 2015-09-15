@@ -8,6 +8,10 @@ class QStringList;
 
 namespace myriad {
     
+    namespace processing {
+        enum class Phase;
+    }
+    
     /**
      * Manages Myriad's primary window and the actions that can be performed through interaction 
      * with it.
@@ -47,9 +51,28 @@ namespace myriad {
             
             bool queryClose() override final;
             
+        public slots:
+            
+            /**
+             * Sets the number of files and folders that Myriad has currently scanned for
+             * processing, so that this information may be displayed in the main UI.
+             * @param fileCount The new file count to display.
+             * @param folderCount The new folder count to display.
+             */
+            
+            void setInputCount(int fileCount, int folderCount);
+            
+            /**
+             * Sets the current processing phase that Myriad is executing, so that this information
+             * may be displayed in the main UI.
+             * @param phase The processing phase to indicate.
+             */
+            
+            void setPhase(myriad::processing::Phase phase);
+            
         private:
         
-            class Private;
+            struct Private;
             std::unique_ptr<Private> d;
     };
 }

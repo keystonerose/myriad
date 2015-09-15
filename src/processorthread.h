@@ -79,7 +79,7 @@ namespace myriad {
                  * currently in.
                  */
                 
-                void phaseChanged(Phase phase);
+                void phaseChanged(myriad::processing::Phase phase);
                 
             private:
                 
