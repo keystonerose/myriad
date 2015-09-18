@@ -17,17 +17,16 @@ namespace myriad {
         namespace {
             
             /**
-             * Some of the types passed between the worker thread and the main window (GUI) thread
-             * via the signal-slot mechanism are of types not known by Qt. In order for these 
-             * connections to work, we have to register these types with Qt before the connections 
-             * are made. This function performs this registration if it hasn't been done already, 
-             * and therefore must be called before signals on any ProcessorThread are connected to
+             * Some of the types passed between the worker thread and the main window (GUI) thread via the signal-slot
+             * mechanism are of types not known by Qt. In order for these connections to work, we have to register these
+             * types with Qt before the connections are made. This function performs this registration if it hasn't been
+             * done already, and therefore must be called before signals on any ProcessorThread are connected to
              * corresponding slots.
              */
             
             void registerMetaTypes() {
                 
-                static bool registered = false;
+                static auto registered = false;
                 if (!registered) {
                 
                     qRegisterMetaType<myriad::processing::Phase>("myriad::processing::Phase");

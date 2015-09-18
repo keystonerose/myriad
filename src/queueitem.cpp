@@ -12,8 +12,8 @@ namespace myriad {
         namespace {
             
             /**
-             * Determines the MIME type of the resource indicated by the specified path, and returns
-             * the name of the icon associated with that MIME type.
+             * Determines the MIME type of the resource indicated by the specified path, and returns the name of the
+             * icon associated with that MIME type.
              * @param path The filesystem path indicating the resource to find the icon name for.
              * @return The name of the icon for the resource at @p path.
              */
@@ -27,7 +27,6 @@ namespace myriad {
             /**
              * Gets the file or directory name portion of a full filesystem path.
              * @param path The full path to extract the name from.
-             * @return The filename 
              */
             
             QString nameFromPath(const QString& path) {
@@ -60,10 +59,9 @@ namespace myriad {
 
         void QueueItem::setData(const QVariant& value, const int role) {
             
-            // Only the full URL of the resource indicated by this items gives us enough information
-            // to determine the data associated with all of its roles (namely icon, filename and
-            // URL); accordingly, we do nothing if setData() is not being called with the UrlRole
-            // role.
+            // Only the full URL of the resource indicated by this items gives us enough information to determine the
+            // data associated with all of its roles (namely icon, filename and URL); accordingly, we do nothing if
+            // setData() is not being called with the UrlRole role.
             
             if (role != PathRole) {
                 return;

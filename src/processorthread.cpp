@@ -2,7 +2,7 @@
 #include <QFileInfo>
 #include <QMimeDatabase>
 
-#include "image.h"
+#include "imageinfo.h"
 #include "mainwindow.h"
 #include "processor.h"
 #include "processorthread.h"
@@ -13,8 +13,8 @@ namespace myriad {
         namespace {
             
             /**
-             * Uses the MIME type of a file on disk to determine whether it is in a supported
-             * format for processing by Myriad.
+             * Uses the MIME type of a file on disk to determine whether it is in a supported format for processing by
+             * Myriad.
              * @param path The full filesystem path to the file to check.
              * @return @c true if @p path identifies a supported image file; @c false otherwise.
              */
@@ -37,9 +37,10 @@ namespace myriad {
             if (fileInfo.exists()) {
 
                 if (fileInfo.isFile()) {
-                    if (fileIsSupported(inputPath) && !m_inputImagePaths.contains(inputPath)) {
+                    if (fileIsSupported(inputPath) && !m_images.contains(inputPath)) {
                         
-                        m_inputImagePaths.insert(inputPath);
+                        m_images.insert(inputPath, ImageInfo{});
+                        m_inputFileCount.store(m_images.size());
                         emitInputCount();
                     }
                 }
@@ -69,12 +70,15 @@ namespace myriad {
             emit(inputCountChanged(inputFileCount(), inputFolderCount()));
         }
         
+        void ProcessorThread::hashImages() {
+        }
+        
         int ProcessorThread::inputFileCount() const {
-            return m_inputImagePaths.size();
+            return m_inputFileCount.load();
         }
         
         int ProcessorThread::inputFolderCount() const {
-            return m_inputFolderCount;
+            return m_inputFolderCount.load();
         }
         
         void ProcessorThread::run() {
@@ -82,6 +86,10 @@ namespace myriad {
             emit(phaseChanged(Phase::SCANNING));
             emitInputCount();
             addInputs(m_mainWindow->inputs());
+            
+            emit(phaseChanged(Phase::HASHING));
+            emit(hashingProgressChanged(0));
+            hashImages();
         }
     }
 }

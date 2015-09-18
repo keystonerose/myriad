@@ -21,7 +21,7 @@
 #include <KStandardAction>
 
 #include "deduplicator.h"
-#include "image.h"
+#include "imageinfo.h"
 #include "mainwindow.h"
 #include "merger.h"
 #include "processor.h"
@@ -34,9 +34,9 @@ namespace myriad {
     namespace {
         
         /**
-         * Generates a sequence of glob patterns that represent union of all MIME types named in a
-         * specified list. The resulting pattern can be used in a name filter for a @c QFileDialog.
-         * Based upon Qt's <tt>nameFilterForMime()</tt> fuction.
+         * Generates a sequence of glob patterns that represent union of all MIME types named in a specified list. The
+         * resulting pattern can be used in a name filter for a @c QFileDialog. Based upon Qt's
+         * <tt>nameFilterForMime()</tt> fuction.
          * @param mimeNameList The list of supported MIME type names.
          * @return A glob pattern for the union of MIME types specified in @p mimeNameList.
          */
@@ -73,9 +73,9 @@ namespace myriad {
         }
     
         /**
-        * Sets up a @c QFileDialog to prepare it for prompting for a one or more input image files.
-        * These files are filtered by the MIME types supported by Myriad. The @c QApplication
-        * instance must be created before this function is called.
+        * Sets up a @c QFileDialog to prepare it for prompting for a one or more input image files. These files are
+        * filtered by the MIME types supported by Myriad. The @c QApplication instance must be created before this
+        * function is called.
         * @param dialog The dialog object to be modified.
         */
 
@@ -112,8 +112,8 @@ namespace myriad {
         }
         
         /**
-         * Adds specified files or folders to the input target list. These will be scanned for
-         * duplicates when the main Myriad processing is performed.
+         * Adds specified files or folders to the input target list. These will be scanned for duplicates when the main
+         * Myriad processing is performed.
          * @param targetPaths The list of filesystems paths identifying the targets to add.
          */
         
@@ -135,8 +135,8 @@ namespace myriad {
         }
         
         /**
-         * Sets up the KDE actions that are available through interaction with the Myriad main
-         * window, and binds them to their associated methods.
+         * Sets up the KDE actions that are available through interaction with the Myriad main window, and binds them to
+         * their associated methods.
          */
         
         void initActions() {
@@ -162,17 +162,15 @@ namespace myriad {
             connect(clearTargetsAction, &QAction::triggered, [this] {clearAllTargets();});
             connect(processAction,      &QAction::triggered, [this] {m_processor->start(q);});
             
-            // AFACT the new Qt signal/slot syntax (using member function pointers and/or
-            // lambdas) is not available for the KStandardAction binding functions. So we use
-            // the traditional SLOT() syntax.
+            // AFACT the new Qt signal/slot syntax (using member function pointers and/or lambdas) is not available for
+            // the KStandardAction binding functions. So we use the traditional SLOT() syntax.
             
             KStandardAction::quit(q, SLOT(close()), actions);
         }
         
         /**
-         * Initialises and tweaks the elements of the main window's UI. We can here fine-tune
-         * aspects of the various widgets contained therein to an extent not possible using only
-         * Qt Designer.
+         * Initialises and tweaks the elements of the main window's UI. We can here fine-tune aspects of the various
+         * widgets contained therein to an extent not possible using only Qt Designer.
          */
         
         void initUi() {
@@ -192,12 +190,11 @@ namespace myriad {
         }
         
         /**
-         * Displays a dialog box with which the user can specify a collection of input files or
-         * directories that should be added to the processing queue. The directory last chosen is
-         * saved as the initial selection for the next time this action is performed.
-         * @param configureDialog A function that can be called upon a @c QFileDialog to
-         * configure it to prompt for whatever sort of input is appropriate for the current 
-         * processing mode.
+         * Displays a dialog box with which the user can specify a collection of input files or directories that should
+         * be added to the processing queue. The directory last chosen is saved as the initial selection for the next
+         * time this action is performed.
+         * @param configureDialog A function that can be called upon a @c QFileDialog to configure it to prompt for
+         * whatever sort of input is appropriate for the current processing mode.
          * @return The list of targets that were selected from the dialog box.
          */
         
@@ -219,11 +216,10 @@ namespace myriad {
         }
         
         /**
-         * Restores state information about the main window from the Myriad configuration file,
-         * where it should have been saved when the application was last closed. This must be called
-         * after the GUI has been created and events have been bound to it, since some state (like
-         * the processing mode) is restored by activating the relevant button and letting the normal
-         * slots kick in.
+         * Restores state information about the main window from the Myriad configuration file, where it should have
+         * been saved when the application was last closed. This must be called after the GUI has been created and
+         * events have been bound to it, since some state (like the processing mode) is restored by activating the
+         * relevant button and letting the normal slots kick in.
          */
         
         void restoreState() {
@@ -236,9 +232,8 @@ namespace myriad {
                 m_lastInputDir = settings->lastInputDir();
             }
             
-            // The UI is set up to select the "merge" processing mode (and initialise the 
-            // corresponding processor object) by default. So, we need not do anything if this
-            // is also the mode saved from last time.
+            // The UI is set up to select the "merge" processing mode (and initialise the corresponding processor
+            // object) by default. So, we need not do anything if this is also the mode saved from last time.
             
             const auto savedProcessingMode = settings->processingMode();
             if (savedProcessingMode == Settings::EnumProcessingMode::Deduplicate) {
@@ -247,8 +242,8 @@ namespace myriad {
         }
         
         /**
-         * Saves state information about the main window to the Myriad configuration file, so that
-         * it can be restored the next time the application is run.
+         * Saves state information about the main window to the Myriad configuration file, so that it can be restored
+         * the next time the application is run.
          */
         
         void saveState() const {
@@ -262,8 +257,8 @@ namespace myriad {
         }
         
         /**
-        * Updates the status bar text indicating the current processing phase and the number of
-        * targets that this processing is acting upon.
+        * Updates the status bar text indicating the current processing phase and the number of targets that this
+        * processing is acting upon.
         */
         
         void updateStatusMessage() {
@@ -281,8 +276,8 @@ namespace myriad {
                         action = i18n("Scanning");
                         break;
                         
-                    case processing::Phase::FINGERPRINTING:
-                        action = i18n("Fingerprinting");
+                    case processing::Phase::HASHING:
+                        action = i18n("Hashing");
                         break;
                         
                     case processing::Phase::COMPARING:
@@ -304,13 +299,11 @@ namespace myriad {
         }
         
         /**
-         * Checks if the specified radio button is checked, and if it is, reinitialises the main
-         * processor object to perform a specified action, copying over settings from the existing
-         * processor state as appropriate.
-         * @tparam ProcessorType The type of processing to set up. This should be a child class of
-         * Processor.
-         * @param button The radio button associated with the new type of processing. No action is
-         * taken if this is not checked.
+         * Checks if the specified radio button is checked, and if it is, reinitialises the main processor object to
+         * perform a specified action, copying over settings from the existing processor state as appropriate.
+         * @tparam ProcessorType The type of processing to set up. This should be a child class of Processor.
+         * @param button The radio button associated with the new type of processing. No action is taken if this is not
+         * checked.
          */
         
         template<typename ProcessorType>
@@ -336,6 +329,12 @@ namespace myriad {
         Ui::MainWindow * const m_ui = new Ui::MainWindow;
     };
     
+    // Even though we don't take any action within the MainWindow destructor, it is necessary to define it explicitly
+    // here. If we don't, the compiler provides inline versions in the header file, at which point the
+    // MainWindow::Private type used by the d pointer is incomplete.
+    
+    MainWindow::~MainWindow() = default;
+    
     MainWindow::MainWindow(const QString& caption, QWidget * const parent)
         : KXmlGuiWindow{parent}, d{std::make_unique<Private>(this)} {
 
@@ -346,9 +345,6 @@ namespace myriad {
         setupGUI(Default, QStringLiteral("myriadui.rc"));
         
         d->restoreState();
-    }
-    
-    MainWindow::~MainWindow() {
     }
     
     QStringList MainWindow::inputs() const {

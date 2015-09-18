@@ -11,8 +11,8 @@ namespace myriad {
     namespace processing {
 
         /**
-         * Handles those aspects of Myriad's processing that are specific to when it is scanning 
-         * through a set of input directories to delete duplicates in-place.
+         * Handles those aspects of Myriad's processing that are specific to when it is scanning through a set of input
+         * directories to delete duplicates in-place.
          */
         
         class Deduplicator : public Processor {
@@ -22,10 +22,8 @@ namespace myriad {
                 Deduplicator() = default;
                 
                 /**
-                 * Constructs a new Deduplicator, copying across any state from the Processor that
-                 * existed before it.
-                 * @param rhs The prior Processor that this Deduplicator should retain settings
-                 * from.
+                 * Constructs a new Deduplicator, copying across any state from the Processor that existed before it.
+                 * @param rhs The prior Processor that this Deduplicator should retain settings from.
                  */
                 
                 explicit Deduplicator(const Processor& rhs);

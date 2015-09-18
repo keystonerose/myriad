@@ -34,7 +34,7 @@ set(UI_SUBDIR ui/)
 set(Myriad_SRCS
     ${SRC_SUBDIR}deduplicator.cpp
     ${SRC_SUBDIR}deduplicatorthread.cpp
-    ${SRC_SUBDIR}image.cpp
+    ${SRC_SUBDIR}imageinfo.cpp
     ${SRC_SUBDIR}main.cpp
     ${SRC_SUBDIR}mainwindow.cpp
     ${SRC_SUBDIR}merger.cpp

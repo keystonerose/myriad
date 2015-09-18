@@ -84,7 +84,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="scanProgressLabel">
          <property name="text">
-          <string>Fingerprinting progress:</string>
+          <string>Hashing progress:</string>
          </property>
         </widget>
        </item>
