@@ -1,7 +1,6 @@
 #ifndef MYRIAD_PROCESSORTHREAD_H
 #define MYRIAD_PROCESSORTHREAD_H
 
-#include <QAtomicInt>
 #include <QHash>
 #include <QSet>
 #include <QString>
@@ -37,19 +36,6 @@ namespace myriad {
                  */
             
                 explicit ProcessorThread(MainWindow * parent);
-            
-                /**
-                 * Gets the number of files that have been added as inputs to this thread so far (either by being
-                 * directly passed to addInputs() or by virtue of belonging to folders passed to the same method).
-                 */
-                
-                int inputFileCount() const;
-                
-                /**
-                 * Gets the number of folders that have been scanned for inputs by this thread so far.
-                 */
-                
-                int inputFolderCount() const;
                 
                 /**
                  * Executes the thread by adding the targets specified in the main window and performing whatever
@@ -68,7 +54,8 @@ namespace myriad {
                 void hashingProgressChanged(int progress);
                 
                 /**
-                 * Emitted when the number of files or folders scanned by the thread as inputs changes.
+                 * Emitted when the number of files or folders scanned by the thread as inputs changes (including once
+                 * when the scanning process is initially started).
                  * @param fileCount The number of files that have been scanned by the thread so far.
                  * @param folderCount The number of folders that have been scanned by the thread so far.
                  */
@@ -113,9 +100,20 @@ namespace myriad {
                 
                 void hashImages();
                 
-                QAtomicInt m_inputFileCount{0};
-                QAtomicInt m_inputFolderCount{0};
+                /**
+                 * Gets the number of files that have been added as inputs to this thread so far (either by being
+                 * directly passed to addInputs() or by virtue of belonging to folders passed to the same method).
+                 */
                 
+                int inputFileCount() const;
+                
+                /**
+                 * Gets the number of folders that have been scanned for inputs by this thread so far.
+                 */
+                
+                int inputFolderCount() const;
+                
+                int m_inputFolderCount = 0;
                 QHash<QString, ImageInfo> m_images;
                 const MainWindow * const m_mainWindow;
         };

@@ -106,7 +106,7 @@ namespace myriad {
         }
         
         qint64 ImageInfo::fileSize() const {
-            return m_data->fileSize;
+            return isValid() ? m_data->fileSize : 0;
         }
         
         bool ImageInfo::hasHash() const {
@@ -114,7 +114,7 @@ namespace myriad {
         }
         
         int ImageInfo::height() const {
-            return m_data->height;
+            return isValid() ? m_data->height : 0;
         }
         
         bool ImageInfo::identical(const ImageInfo& lhs, const ImageInfo& rhs) {
@@ -166,7 +166,7 @@ namespace myriad {
         }
 
         int ImageInfo::width() const {
-            return m_data->width;
+            return isValid() ? m_data->width : 0;
         }
         
         QList<QByteArray> supportedMimeTypes() {

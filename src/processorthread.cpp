@@ -40,7 +40,6 @@ namespace myriad {
                     if (fileIsSupported(inputPath) && !m_images.contains(inputPath)) {
                         
                         m_images.insert(inputPath, ImageInfo{});
-                        m_inputFileCount.store(m_images.size());
                         emitInputCount();
                     }
                 }
@@ -74,11 +73,11 @@ namespace myriad {
         }
         
         int ProcessorThread::inputFileCount() const {
-            return m_inputFileCount.load();
+            return m_images.size();
         }
         
         int ProcessorThread::inputFolderCount() const {
-            return m_inputFolderCount.load();
+            return m_inputFolderCount;
         }
         
         void ProcessorThread::run() {

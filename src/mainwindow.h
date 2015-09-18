@@ -53,8 +53,8 @@ namespace myriad {
         public slots:
             
             /**
-             * Sets the number of files and folders that Myriad has currently scanned for processing, so that this
-             * information may be displayed in the main UI.
+             * Sets the number of files and folders that Myriad has currently scanned for processing, and displays this
+             * information in the main UI.
              * @param fileCount The new file count to display.
              * @param folderCount The new folder count to display.
              */
@@ -62,8 +62,7 @@ namespace myriad {
             void setInputCount(int fileCount, int folderCount);
             
             /**
-             * Sets the current processing phase that Myriad is executing, so that this information may be displayed in
-             * the main UI.
+             * Sets the current processing phase that Myriad is executing, and displays this information in the main UI.
              * @param phase The processing phase to indicate.
              */
             
