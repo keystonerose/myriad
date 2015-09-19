@@ -5,7 +5,7 @@ namespace myriad {
     namespace processing {
         
         Deduplicator::Deduplicator(const Processor& rhs)
-            : Processor(rhs) {
+            : Processor{rhs} {
         }
        
         DeduplicatorThread * Deduplicator::createThread(MainWindow * const mainWindow) const {

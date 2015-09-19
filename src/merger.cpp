@@ -5,7 +5,7 @@ namespace myriad {
     namespace processing {
 
         Merger::Merger(const Processor& rhs)
-            : Processor(rhs) {
+            : Processor{rhs} {
         }
 
         ProcessorThread * Merger::createThread(MainWindow * const) const {

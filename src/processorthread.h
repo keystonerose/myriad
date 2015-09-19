@@ -1,6 +1,7 @@
 #ifndef MYRIAD_PROCESSORTHREAD_H
 #define MYRIAD_PROCESSORTHREAD_H
 
+#include <QAtomicInt>
 #include <QHash>
 #include <QSet>
 #include <QString>
@@ -36,6 +37,14 @@ namespace myriad {
                  */
             
                 explicit ProcessorThread(MainWindow * parent);
+                
+                /**
+                 * Instructs the thread to abort its processing and return from run() at the soonest opportunity. This
+                 * wait should be small enough that it can be used to ensure that the application exits cleanly when the
+                 * user sends a terminate request.
+                 */
+                
+                void interrupt();
                 
                 /**
                  * Executes the thread by adding the targets specified in the main window and performing whatever
@@ -113,8 +122,13 @@ namespace myriad {
                 
                 int inputFolderCount() const;
                 
-                int m_inputFolderCount = 0;
+                // The interrupt flag would be better as an atomic boolean (std::atomic<bool>, maybe), but Qt doesn't 
+                // seem to support such a thing, and let's not go mixing STL and Qt threading entities...
+                
+                QAtomicInt m_interruptFlag{0};
+                
                 QHash<QString, ImageInfo> m_images;
+                int m_inputFolderCount = 0;
                 const MainWindow * const m_mainWindow;
         };
     }
