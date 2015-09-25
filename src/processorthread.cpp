@@ -55,7 +55,7 @@ namespace myriad {
                     auto itr = dirItems.constBegin();
                     const auto end = dirItems.constEnd();
                     
-                    for (; itr != end && !m_interruptFlag.load(); ++itr) {
+                    for (; itr != end && !isInterruptionRequested(); ++itr) {
                         addInput(itr->absoluteFilePath());
                     }
                 }
@@ -81,10 +81,6 @@ namespace myriad {
         
         int ProcessorThread::inputFolderCount() const {
             return m_inputFolderCount;
-        }
-
-        void ProcessorThread::interrupt() {
-            m_interruptFlag.store(1);
         }
         
         void ProcessorThread::run() {

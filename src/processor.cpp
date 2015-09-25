@@ -34,20 +34,36 @@ namespace myriad {
                 }
             }
         }
+        
+        bool Processor::isBusy() const {
+            return m_thread->isRunning();
+        }
 
         void Processor::saveState(Settings * const settings) const {
             settings->setProcessingMode(settingsMode());
         }
         
-        void Processor::start(MainWindow * const mainWindow) const {
+        void Processor::start(MainWindow * const mainWindow) {
             
             registerMetaTypes();
             
-            ProcessorThread * thread = createThread(mainWindow);
-            QObject::connect(thread, &ProcessorThread::phaseChanged, mainWindow, &MainWindow::setPhase);
-            QObject::connect(thread, &ProcessorThread::inputCountChanged, mainWindow, &MainWindow::setInputCount);
+            m_thread = createThread(mainWindow);
+            QObject::connect(m_thread, &ProcessorThread::phaseChanged, mainWindow, &MainWindow::setPhase);
+            QObject::connect(m_thread, &ProcessorThread::inputCountChanged, mainWindow, &MainWindow::setInputCount);
             
-            thread->start();
+            m_thread->start();
+        }
+        
+        void Processor::stopAndThen(std::function<void()> callback) {
+            
+            if (isBusy()) {
+
+                //QObject::connect(m_thread, &QThread::finished, this, &ProcessorThread::stopCallback);
+                m_thread->requestInterruption();
+            }
+            else {
+                callback();
+            }
         }
     }
 }

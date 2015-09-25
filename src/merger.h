@@ -23,11 +23,11 @@ namespace myriad {
                 Merger() = default;
             
                 /**
-                 * Constructs a new Merger, copying across any state from the Processor that existed before it.
+                 * Constructs a new Merger, moving across any state from the Processor that existed before it.
                  * @param rhs The prior Processor that this Merger should retain settings from.
                  */
                 
-                explicit Merger(const Processor& rhs);
+                explicit Merger(Processor&& rhs);
             
             private:
                 

@@ -311,7 +311,7 @@ namespace myriad {
 
             if (button->isChecked() && button != m_lastModeRadioButton) {
 
-                m_processor = std::make_unique<ProcessorType>(*m_processor);
+                m_processor = std::make_unique<ProcessorType>(std::move(*m_processor));
                 m_lastModeRadioButton = button;
             }
         }

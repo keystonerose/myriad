@@ -22,11 +22,11 @@ namespace myriad {
                 Deduplicator() = default;
                 
                 /**
-                 * Constructs a new Deduplicator, copying across any state from the Processor that existed before it.
+                 * Constructs a new Deduplicator, moving across any state from the Processor that existed before it.
                  * @param rhs The prior Processor that this Deduplicator should retain settings from.
                  */
                 
-                explicit Deduplicator(const Processor& rhs);
+                explicit Deduplicator(Processor&& rhs);
             
             private:
                 

@@ -1,11 +1,13 @@
+#include <utility>
+
 #include "deduplicator.h"
 #include "settings.h"
 
 namespace myriad {
     namespace processing {
         
-        Deduplicator::Deduplicator(const Processor& rhs)
-            : Processor{rhs} {
+        Deduplicator::Deduplicator(Processor&& rhs)
+            : Processor{std::move(rhs)} {
         }
        
         DeduplicatorThread * Deduplicator::createThread(MainWindow * const mainWindow) const {

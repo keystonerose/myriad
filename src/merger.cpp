@@ -1,11 +1,13 @@
+#include <utility>
+
 #include "merger.h"
 #include "settings.h"
 
 namespace myriad {
     namespace processing {
 
-        Merger::Merger(const Processor& rhs)
-            : Processor{rhs} {
+        Merger::Merger(Processor&& rhs)
+            : Processor{std::move(rhs)} {
         }
 
         ProcessorThread * Merger::createThread(MainWindow * const) const {

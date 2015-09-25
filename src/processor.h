@@ -1,8 +1,7 @@
 #ifndef MYRIAD_PROCESSOR_H
 #define MYRIAD_PROCESSOR_H
 
-#include <QString>
-#include <QThread>
+#include <functional>
 
 namespace myriad {
     
@@ -37,7 +36,26 @@ namespace myriad {
             
             public:
                 
+                /**
+                 * Constructs a Processor with default state.
+                 */
+                
+                Processor() = default;
+                
+                Processor(const Processor&) = delete;
+                Processor& operator=(const Processor&) = delete;
+                
+                Processor(Processor&&) = default;
+                Processor& operator=(Processor&&) = default;
+                
                 virtual ~Processor() = default;
+                
+                /**
+                 * Tests whether the Processor currently has a worker thread running in the background. If not, the
+                 * application can be terminated safely; if so, a call must be made to stop() beforehard.
+                 */
+                
+                bool isBusy() const;
                 
                 /**
                  * Saves state information about the current processing mode to the application settings so that they
@@ -52,7 +70,17 @@ namespace myriad {
                  * @param mainWindow The main window that the Processor will update as it runs.
                  */
                 
-                void start(MainWindow * mainWindow) const;
+                void start(MainWindow * mainWindow);
+                
+                /**
+                 * Asynchronously puts the Processor into a stopped state (by interrupting any running worker thread(s)
+                 * that it may be using) and executes a provided slot once this has been achieved.
+                 * @param receiver The object to execute @p slot on once the processor has been stopped.
+                 * @param slot The slot to execute on the @p receiver object once the processor has been stopped. This
+                 * should accept no arguments.
+                 */
+                
+                void stopAndThen(std::function<void()> callback);
                 
             private:
                 
@@ -72,6 +100,8 @@ namespace myriad {
                  */
                 
                 virtual int settingsMode() const = 0;
+                
+                ProcessorThread * m_thread = nullptr;
         };
     }
 }

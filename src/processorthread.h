@@ -1,7 +1,6 @@
 #ifndef MYRIAD_PROCESSORTHREAD_H
 #define MYRIAD_PROCESSORTHREAD_H
 
-#include <QAtomicInt>
 #include <QHash>
 #include <QSet>
 #include <QString>
@@ -121,11 +120,6 @@ namespace myriad {
                  */
                 
                 int inputFolderCount() const;
-                
-                // The interrupt flag would be better as an atomic boolean (std::atomic<bool>, maybe), but Qt doesn't 
-                // seem to support such a thing, and let's not go mixing STL and Qt threading entities...
-                
-                QAtomicInt m_interruptFlag{0};
                 
                 QHash<QString, ImageInfo> m_images;
                 int m_inputFolderCount = 0;
