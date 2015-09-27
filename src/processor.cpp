@@ -1,3 +1,5 @@
+#include <utility>
+
 #include <QFileDialog>
 #include <QMetaType>
 #include <QObject>
@@ -35,6 +37,16 @@ namespace myriad {
             }
         }
         
+        FinishedCallback::FinishedCallback(QThread * const thread, RawCallback callback)
+            : m_callback(std::move(callback)),
+              m_connection(connect(thread, &QThread::finished, this, &FinishedCallback::invoke)) {            
+        }
+        
+        void FinishedCallback::invoke() {
+            disconnect(m_connection);
+            m_callback();
+        }
+        
         bool Processor::isBusy() const {
             return m_thread->isRunning();
         }
@@ -48,21 +60,31 @@ namespace myriad {
             registerMetaTypes();
             
             m_thread = createThread(mainWindow);
+            
             QObject::connect(m_thread, &ProcessorThread::phaseChanged, mainWindow, &MainWindow::setPhase);
             QObject::connect(m_thread, &ProcessorThread::inputCountChanged, mainWindow, &MainWindow::setInputCount);
             
             m_thread->start();
         }
         
-        void Processor::stopAndThen(std::function<void()> callback) {
+        bool Processor::stopAndThen(std::function<void()> callback) {
             
             if (isBusy()) {
-
-                //QObject::connect(m_thread, &QThread::finished, this, &ProcessorThread::stopCallback);
+                
+                // The FinishedCallback will ensure that callback is only executed once (the next time that m_thread
+                // finishes). This isn't strictly necessary -- since the thread is recreated anew each time start() is
+                // called, its finished signal will only be fired once -- but it's functionality we get essentially for
+                // free when implementing FinishedCallback, and make things more robust should the handling of m_thread
+                // change in the future.
+                
+                m_finishedCallback = std::make_unique<FinishedCallback>(m_thread, callback);
                 m_thread->requestInterruption();
+                return false;
             }
             else {
+                
                 callback();
+                return true;
             }
         }
     }

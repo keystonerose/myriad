@@ -1,4 +1,3 @@
-#include <cassert>
 #include <functional>
 #include <memory>
 
@@ -358,8 +357,14 @@ namespace myriad {
     
     bool MainWindow::queryClose() {
         
-        d->saveState();
-        return true;
+        if (d->m_processor->isBusy()) {
+            d->m_processor->stopAndThen([this] {close();});
+            return false;
+        }
+        else {
+            d->saveState();
+            return true;
+        }
     }
     
     void MainWindow::setInputCount(const int fileCount, const int folderCount) {
@@ -375,5 +380,3 @@ namespace myriad {
         d->updateStatusMessage();
     }
 }
-
-#include "moc_mainwindow.cpp"
