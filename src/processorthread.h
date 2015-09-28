@@ -1,6 +1,7 @@
 #ifndef MYRIAD_PROCESSORTHREAD_H
 #define MYRIAD_PROCESSORTHREAD_H
 
+#include <QElapsedTimer>
 #include <QHash>
 #include <QSet>
 #include <QString>
@@ -36,14 +37,6 @@ namespace myriad {
                  */
             
                 explicit ProcessorThread(MainWindow * parent);
-                
-                /**
-                 * Instructs the thread to abort its processing and return from run() at the soonest opportunity. This
-                 * wait should be small enough that it can be used to ensure that the application exits cleanly when the
-                 * user sends a terminate request.
-                 */
-                
-                void interrupt();
                 
                 /**
                  * Executes the thread by adding the targets specified in the main window and performing whatever
@@ -96,10 +89,11 @@ namespace myriad {
                 
                 /**
                  * Emits the inputCountChanged() signal with appropriate values for the number of files and folders
-                 * scanned so far.
+                 * scanned so far. This method may skip input count emissions if too many are requested too near each 
+                 * other in time; to force an emission, set @p force to @c true.
                  */
                 
-                void emitInputCount();
+                void emitInputCount(bool force = false);
                 
                 /**
                  * Scans through all image files previously passed to addInput() and generates a perceptual hash for
@@ -121,6 +115,7 @@ namespace myriad {
                 
                 int inputFolderCount() const;
                 
+                QElapsedTimer m_countEmissionTimer;
                 QHash<QString, ImageInfo> m_images;
                 int m_inputFolderCount = 0;
                 const MainWindow * const m_mainWindow;
