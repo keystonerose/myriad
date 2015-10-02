@@ -10,7 +10,7 @@ namespace myriad {
             : Processor{std::move(rhs)} {
         }
 
-        ProcessorThread * Merger::createThread(MainWindow * const) const {
+        ProcessorThread * Merger::createThread(ui::MainWindow * const) const {
 
             // TODO: Not yet implemented!
             return nullptr;

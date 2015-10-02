@@ -11,8 +11,10 @@ class QThread;
 
 namespace myriad {
     
-    class MainWindow;
     class Settings;
+    namespace ui {
+        class MainWindow;
+    }
     
     namespace processing {
         
@@ -124,7 +126,7 @@ namespace myriad {
                  * @param mainWindow The main window that the Processor will update as it runs.
                  */
                 
-                void start(MainWindow * mainWindow);
+                void start(ui::MainWindow * mainWindow);
                 
                 /**
                  * Asynchronously puts the Processor into a stopped state (by interrupting any running worker thread(s)
@@ -148,7 +150,7 @@ namespace myriad {
                  * @return The newly created thread, whose ownership passes to the calling function.
                  */
                 
-                virtual ProcessorThread * createThread(MainWindow * mainWindow) const = 0;
+                virtual ProcessorThread * createThread(ui::MainWindow * mainWindow) const = 0;
                 
                 /**
                  * Gets the KConfig XT enum code that is used to identify the processing mode implemented by this

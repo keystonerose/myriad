@@ -27,7 +27,7 @@ namespace myriad {
             }
         }
         
-        ProcessorThread::ProcessorThread(MainWindow * const mainWindow)
+        ProcessorThread::ProcessorThread(ui::MainWindow * const mainWindow)
             : QThread{mainWindow}, m_mainWindow{mainWindow} {
         }
         

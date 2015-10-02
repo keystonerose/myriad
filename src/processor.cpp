@@ -55,15 +55,15 @@ namespace myriad {
             settings->setProcessingMode(settingsMode());
         }
         
-        void Processor::start(MainWindow * const mainWindow) {
+        void Processor::start(ui::MainWindow * const mainWindow) {
             
             registerMetaTypes();
             
             m_thread = createThread(mainWindow);
             
-            QObject::connect(m_thread, &ProcessorThread::phaseChanged, mainWindow, &MainWindow::setPhase);
-            QObject::connect(m_thread, &ProcessorThread::inputCountChanged, mainWindow, &MainWindow::setInputCount);
-            QObject::connect(m_thread, &ProcessorThread::hashingProgressChanged, mainWindow, &MainWindow::setHashingProgress);
+            QObject::connect(m_thread, &ProcessorThread::phaseChanged, mainWindow, &ui::MainWindow::setPhase);
+            QObject::connect(m_thread, &ProcessorThread::inputCountChanged, mainWindow, &ui::MainWindow::setInputCount);
+            QObject::connect(m_thread, &ProcessorThread::hashingProgressChanged, mainWindow, &ui::MainWindow::setHashingProgress);
             
             m_thread->start();
         }

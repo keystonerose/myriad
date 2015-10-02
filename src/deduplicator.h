@@ -6,7 +6,9 @@
 
 namespace myriad {
     
-    class MainWindow;
+    namespace ui {
+        class MainWindow;
+    }
     
     namespace processing {
 
@@ -34,7 +36,7 @@ namespace myriad {
                  * @see Processor::createThread()
                  */
                 
-                DeduplicatorThread * createThread(MainWindow * mainWindow) const override final;
+                DeduplicatorThread * createThread(ui::MainWindow * mainWindow) const override final;
                 
                 /**
                  * @see Processor::settingsMode()

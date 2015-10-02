@@ -3,7 +3,7 @@
 namespace myriad {
     namespace processing {
         
-        DeduplicatorThread::DeduplicatorThread(MainWindow * const parent)
+        DeduplicatorThread::DeduplicatorThread(ui::MainWindow * const parent)
             : ProcessorThread{parent} {
         }
     }

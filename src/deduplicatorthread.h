@@ -17,7 +17,7 @@ namespace myriad {
                  * @see ProcessorThread::ProcessorThread()
                  */
             
-                explicit DeduplicatorThread(MainWindow * parent);
+                explicit DeduplicatorThread(ui::MainWindow * parent);
         };
     }
 }

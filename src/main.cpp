@@ -31,7 +31,7 @@ int main(int argc, char ** argv) {
     QApplication app{argc, argv};
     QApplication::setApplicationDisplayName(displayName);
     
-    auto * const mainWindow = new myriad::MainWindow{displayName};
+    auto * const mainWindow = new myriad::ui::MainWindow{displayName};
     mainWindow->show();
     
     return app.exec();

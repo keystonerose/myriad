@@ -13,7 +13,9 @@ class QStringList;
 
 namespace myriad {
     
-    class MainWindow;
+    namespace ui {
+        class MainWindow;
+    }
     
     namespace processing {
         
@@ -36,7 +38,7 @@ namespace myriad {
                  * about it as it executes. This will take ownership of the thread.
                  */
             
-                explicit ProcessorThread(MainWindow * parent);
+                explicit ProcessorThread(ui::MainWindow * parent);
                 
                 /**
                  * Executes the thread by adding the targets specified in the main window and performing whatever
@@ -118,7 +120,7 @@ namespace myriad {
                 QElapsedTimer m_countEmissionTimer;
                 QHash<QString, ImageInfo> m_images;
                 int m_inputFolderCount = 0;
-                const MainWindow * const m_mainWindow;
+                const ui::MainWindow * const m_mainWindow;
                 int m_lastHashingProgress = 0;
         };
     }

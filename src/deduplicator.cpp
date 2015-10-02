@@ -10,7 +10,7 @@ namespace myriad {
             : Processor{std::move(rhs)} {
         }
        
-        DeduplicatorThread * Deduplicator::createThread(MainWindow * const mainWindow) const {
+        DeduplicatorThread * Deduplicator::createThread(ui::MainWindow * const mainWindow) const {
             return new DeduplicatorThread{mainWindow};
         }
         
