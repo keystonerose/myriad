@@ -82,14 +82,14 @@
       </property>
       <layout class="QFormLayout" name="formLayout">
        <item row="1" column="0">
-        <widget class="QLabel" name="scanProgressLabel">
+        <widget class="QLabel" name="hashingProgressLabel">
          <property name="text">
           <string>Hashing progress:</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QProgressBar" name="scanProgressBar">
+        <widget class="QProgressBar" name="hashingProgressBar">
          <property name="value">
           <number>0</number>
          </property>

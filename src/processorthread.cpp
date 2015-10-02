@@ -52,11 +52,11 @@ namespace myriad {
                     ++m_inputFolderCount;
                     emitInputCount();
                     
-                    auto itr = dirItems.constBegin();
+                    auto iter = dirItems.constBegin();
                     const auto end = dirItems.constEnd();
                     
-                    for (; itr != end && !isInterruptionRequested(); ++itr) {
-                        addInput(itr->absoluteFilePath());
+                    for (; iter != end && !isInterruptionRequested(); ++iter) {
+                        addInput(iter->absoluteFilePath());
                     }
                 }
             }
@@ -79,11 +79,31 @@ namespace myriad {
             if (force || !m_countEmissionTimer.isValid() || m_countEmissionTimer.elapsed() >= EMISSION_PERIOD) {
             
                 emit(inputCountChanged(inputFileCount(), inputFolderCount()));
-                m_countEmissionTimer.restart();
+                m_countEmissionTimer.start();
             }
         }
         
         void ProcessorThread::hashImages() {
+            
+            auto numImagesHashed = 0;
+            
+            auto iter = m_images.begin();
+            const auto end = m_images.end();
+            
+            for (; iter != end && !isInterruptionRequested(); ++iter) {
+            
+                const auto& path = iter.key();
+                auto& imageInfo = iter.value();
+                
+                imageInfo.read(path);
+                ++numImagesHashed;
+                
+                auto progress = static_cast<int>(100.0f * static_cast<float>(numImagesHashed) / static_cast<float>(inputFileCount()) + 0.5f);
+                if (progress > m_lastHashingProgress) {
+                    emit(hashingProgressChanged(progress));
+                    m_lastHashingProgress = progress;
+                }
+            }
         }
         
         int ProcessorThread::inputFileCount() const {

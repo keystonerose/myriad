@@ -367,6 +367,10 @@ namespace myriad {
         }
     }
     
+    void MainWindow::setHashingProgress(int progress) {
+        d->m_ui->hashingProgressBar->setValue(progress);
+    }
+    
     void MainWindow::setInputCount(const int fileCount, const int folderCount) {
 
         d->m_inputFileCount   = fileCount;

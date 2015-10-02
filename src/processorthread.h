@@ -119,6 +119,7 @@ namespace myriad {
                 QHash<QString, ImageInfo> m_images;
                 int m_inputFolderCount = 0;
                 const MainWindow * const m_mainWindow;
+                int m_lastHashingProgress = 0;
         };
     }
 }

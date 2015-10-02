@@ -53,6 +53,13 @@ namespace myriad {
         public slots:
             
             /**
+             * Displays the completion progress of Myriad's image hashing processing phase.
+             * @param progress The percentage completion to display.
+             */
+            
+            void setHashingProgress(int progress);
+            
+            /**
              * Sets the number of files and folders that Myriad has currently scanned for processing, and displays this
              * information in the main UI.
              * @param fileCount The new file count to display.
