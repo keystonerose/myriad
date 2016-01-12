@@ -20,30 +20,30 @@ namespace myriad {
         
         class Merger : public Processor {
             
-            public:
-                
-                Merger() = default;
+        public:
             
-                /**
-                 * Constructs a new Merger, moving across any state from the Processor that existed before it.
-                 * @param rhs The prior Processor that this Merger should retain settings from.
-                 */
-                
-                explicit Merger(Processor&& rhs);
+            Merger() = default;
+        
+            /**
+             * Constructs a new Merger, moving across any state from the Processor that existed before it.
+             * @param rhs The prior Processor that this Merger should retain settings from.
+             */
             
-            private:
-                
-                /**
-                 * @see Processor::createThread()
-                 */
-                
-                ProcessorThread * createThread(ui::MainWindow * mainWindow) const override final;
-                
-                /**
-                 * @see Processor::settingsMode()
-                 */
-                
-                int settingsMode() const override final;
+            explicit Merger(Processor&& rhs);
+        
+        private:
+            
+            /**
+             * @see Processor::createThread()
+             */
+            
+            ProcessorThread * createThread(ui::MainWindow * mainWindow) const override final;
+            
+            /**
+             * @see Processor::settingsMode()
+             */
+            
+            int settingsMode() const override final;
         };
     }
 }

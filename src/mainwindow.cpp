@@ -34,12 +34,12 @@ namespace myriad {
         namespace {
             
             /**
-            * Generates a sequence of glob patterns that represent union of all MIME types named in a specified list.
-            * The resulting pattern can be used in a name filter for a @c QFileDialog. Based upon Qt's
-            * <tt>nameFilterForMime()</tt> fuction.
-            * @param mimeNameList The list of supported MIME type names.
-            * @return A glob pattern for the union of MIME types specified in @p mimeNameList.
-            */
+             * Generates a sequence of glob patterns that represent union of all MIME types named in a specified list.
+             * The resulting pattern can be used in a name filter for a @c QFileDialog. Based upon Qt's
+             * <tt>nameFilterForMime()</tt> fuction.
+             * @param mimeNameList The list of supported MIME type names.
+             * @return A glob pattern for the union of MIME types specified in @p mimeNameList.
+             */
             
             QString globPatternsForMimeTypes(const QList<QByteArray> mimeNameList) {
                 
@@ -73,11 +73,11 @@ namespace myriad {
             }
         
             /**
-            * Sets up a @c QFileDialog to prepare it for prompting for a one or more input image files. These files are
-            * filtered by the MIME types supported by Myriad. The @c QApplication instance must be created before this
-            * function is called.
-            * @param dialog The dialog object to be modified.
-            */
+             * Sets up a @c QFileDialog to prepare it for prompting for a one or more input image files. These files are
+             * filtered by the MIME types supported by Myriad. The @c QApplication instance must be created before this
+             * function is called.
+             * @param dialog The dialog object to be modified.
+             */
 
             void configureFileInputDialog(QFileDialog * dialog) {
 
@@ -90,9 +90,9 @@ namespace myriad {
             }
             
             /**
-            * Sets up a @c QFileDialog to prepare it for prompting for a single input folder.
-            * @param dialog The dialog object to be modified.
-            */
+             * Sets up a @c QFileDialog to prepare it for prompting for a single input folder.
+             * @param dialog The dialog object to be modified.
+             */
 
             void configureFolderInputDialog(QFileDialog * dialog) {
                 dialog->setFileMode(QFileDialog::Directory);
@@ -103,19 +103,19 @@ namespace myriad {
         struct MainWindow::Private {
 
             /**
-            * Initialises the main window's private data upon construction.
-            * @param q The owner instance of the public class.
-            */
+             * Initialises the main window's private data upon construction.
+             * @param q The owner instance of the public class.
+             */
 
-            Private(MainWindow * const q)
+            explicit Private(MainWindow * const q)
                 : q{q} {
             }
             
             /**
-            * Adds specified files or folders to the input target list. These will be scanned for duplicates when the
-            * main Myriad processing is performed.
-            * @param targetPaths The list of filesystems paths identifying the targets to add.
-            */
+             * Adds specified files or folders to the input target list. These will be scanned for duplicates when the
+             * main Myriad processing is performed.
+             * @param targetPaths The list of filesystems paths identifying the targets to add.
+             */
             
             void addTargets(const QStringList& targetPaths) {
                 
@@ -127,17 +127,17 @@ namespace myriad {
             }
             
             /**
-            * Removes all targets from the input list.
-            */
+             * Removes all targets from the input list.
+             */
             
             void clearAllTargets() {
                 m_queueModel.clear();
             }
             
             /**
-            * Sets up the KDE actions that are available through interaction with the Myriad main window, and binds them
-            * to their associated methods.
-            */
+             * Sets up the KDE actions that are available through interaction with the Myriad main window, and binds
+             * them to their associated methods.
+             */
             
             void initActions() {
                 
@@ -169,9 +169,9 @@ namespace myriad {
             }
             
             /**
-            * Initialises and tweaks the elements of the main window's UI. We can here fine-tune aspects of the various
-            * widgets contained therein to an extent not possible using only Qt Designer.
-            */
+             * Initialises and tweaks the elements of the main window's UI. We can here fine-tune aspects of the various
+             * widgets contained therein to an extent not possible using only Qt Designer.
+             */
             
             void initUi() {
                 
@@ -190,13 +190,13 @@ namespace myriad {
             }
             
             /**
-            * Displays a dialog box with which the user can specify a collection of input files or directories that
-            * should be added to the processing queue. The directory last chosen is saved as the initial selection for
-            * the next time this action is performed.
-            * @param configureDialog A function that can be called upon a @c QFileDialog to configure it to prompt for
-            * whatever sort of input is appropriate for the current processing mode.
-            * @return The list of targets that were selected from the dialog box.
-            */
+             * Displays a dialog box with which the user can specify a collection of input files or directories that
+             * should be added to the processing queue. The directory last chosen is saved as the initial selection for
+             * the next time this action is performed.
+             * @param configureDialog A function that can be called upon a @c QFileDialog to configure it to prompt for
+             * whatever sort of input is appropriate for the current processing mode.
+             * @return The list of targets that were selected from the dialog box.
+             */
             
             QStringList promptForInputs(const std::function<void(QFileDialog *)> configureDialog) {
 
@@ -216,11 +216,11 @@ namespace myriad {
             }
             
             /**
-            * Restores state information about the main window from the Myriad configuration file, where it should have
-            * been saved when the application was last closed. This must be called after the GUI has been created and
-            * events have been bound to it, since some state (like the processing mode) is restored by activating the
-            * relevant button and letting the normal slots kick in.
-            */
+             * Restores state information about the main window from the Myriad configuration file, where it should have
+             * been saved when the application was last closed. This must be called after the GUI has been created and
+             * events have been bound to it, since some state (like the processing mode) is restored by activating the
+             * relevant button and letting the normal slots kick in.
+             */
             
             void restoreState() {
                 
@@ -242,9 +242,9 @@ namespace myriad {
             }
             
             /**
-            * Saves state information about the main window to the Myriad configuration file, so that it can be restored
-            * the next time the application is run.
-            */
+             * Saves state information about the main window to the Myriad configuration file, so that it can be
+             * restored the next time the application is run.
+             */
             
             void saveState() const {
                 
@@ -257,9 +257,9 @@ namespace myriad {
             }
             
             /**
-            * Updates the status bar text indicating the current processing phase and the number of targets that this
-            * processing is acting upon.
-            */
+             * Updates the status bar text indicating the current processing phase and the number of targets that this
+             * processing is acting upon.
+             */
             
             void updateStatusMessage() {
                 
@@ -299,12 +299,12 @@ namespace myriad {
             }
             
             /**
-            * Checks if the specified radio button is checked, and if it is, reinitialises the main processor object to
-            * perform a specified action, copying over settings from the existing processor state as appropriate.
-            * @tparam ProcessorType The type of processing to set up. This should be a child class of Processor.
-            * @param button The radio button associated with the new type of processing. No action is taken if this is
-            * not checked.
-            */
+             * Checks if the specified radio button is checked, and if it is, reinitialises the main processor object to
+             * perform a specified action, copying over settings from the existing processor state as appropriate.
+             * @tparam ProcessorType The type of processing to set up. This should be a child class of Processor.
+             * @param button The radio button associated with the new type of processing. No action is taken if this is
+             * not checked.
+             */
             
             template<typename ProcessorType>
             void resetProcessorIfChecked(QRadioButton * const button) {

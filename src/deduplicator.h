@@ -18,31 +18,31 @@ namespace myriad {
          */
         
         class Deduplicator : public Processor {
+        
+        public:
             
-            public:
-                
-                Deduplicator() = default;
-                
-                /**
-                 * Constructs a new Deduplicator, moving across any state from the Processor that existed before it.
-                 * @param rhs The prior Processor that this Deduplicator should retain settings from.
-                 */
-                
-                explicit Deduplicator(Processor&& rhs);
+            Deduplicator() = default;
             
-            private:
-                
-                /**
-                 * @see Processor::createThread()
-                 */
-                
-                DeduplicatorThread * createThread(ui::MainWindow * mainWindow) const override final;
-                
-                /**
-                 * @see Processor::settingsMode()
-                 */
-                
-                int settingsMode() const override final;
+            /**
+                * Constructs a new Deduplicator, moving across any state from the Processor that existed before it.
+                * @param rhs The prior Processor that this Deduplicator should retain settings from.
+                */
+            
+            explicit Deduplicator(Processor&& rhs);
+        
+        private:
+            
+            /**
+                * @see Processor::createThread()
+                */
+            
+            DeduplicatorThread * createThread(ui::MainWindow * mainWindow) const override final;
+            
+            /**
+                * @see Processor::settingsMode()
+                */
+            
+            int settingsMode() const override final;
         };
     }
 }

@@ -46,38 +46,38 @@ namespace myriad {
          */
         
         class FinishedCallback : public QObject {
-            Q_OBJECT
+        Q_OBJECT
+        
+        public:
             
-            public:
-                
-                using RawCallback = std::function<void()>;
-                
-                /**
-                 * Sets up the FinishedCallback to execute a specified callback function when a particular thread
-                 * finishes, and performs the connection that will be responsible for making this happen. This
-                 * connection is undone as soon as @p callback has been executed, so even if @p thread is run multiple
-                 * times, this callback function will only be invoked after the first run. 
-                 * @param thread The thread whose @c finished signal should cause @p callback to be executed.
-                 * @param callback The callback to execute when @
-                 */
-                
-                FinishedCallback(QThread * thread, RawCallback callback);
+            using RawCallback = std::function<void()>;
             
-            private slots:
-                
-                /**
-                 * Executes the callback that this FinishedCallback object was constructed with, and then immediately 
-                 * disconnects the connection that was made between this slot and the sending thread's @c finished 
-                 * signal so that this callback will not be executed a second time should the thread send its
-                 * @c finished signal again.
-                 */
-                
-                void invoke();
-                
-            private:
-                
-                const RawCallback m_callback;
-                const QMetaObject::Connection m_connection;
+            /**
+             * Sets up the FinishedCallback to execute a specified callback function when a particular thread finishes,
+             * and performs the connection that will be responsible for making this happen. This connection is undone as
+             * soon as @p callback has been executed, so even if @p thread is run multiple times, this callback function
+             * will only be invoked after the first run. 
+             * @param thread The thread whose @c finished signal should cause @p callback to be executed.
+             * @param callback The callback to execute.
+             */
+            
+            FinishedCallback(QThread * thread, RawCallback callback);
+        
+        private slots:
+            
+            /**
+             * Executes the callback that this FinishedCallback object was constructed with, and then immediately 
+             * disconnects the connection that was made between this slot and the sending thread's @c finished signal so
+             * that this callback will not be executed a second time should the thread send its @c finished signal
+             * again.
+             */
+            
+            void invoke();
+            
+        private:
+            
+            const RawCallback m_callback;
+            const QMetaObject::Connection m_connection;
         };
         
         /**
@@ -89,78 +89,78 @@ namespace myriad {
          */
         
         class Processor {
+        
+        public:
             
-            public:
-                
-                /**
-                 * Constructs a Processor with default state.
-                 */
-                
-                Processor() = default;
-                
-                Processor(const Processor&) = delete;
-                Processor& operator=(const Processor&) = delete;
-                
-                Processor(Processor&&) = default;
-                Processor& operator=(Processor&&) = default;
-                
-                virtual ~Processor() = default;
-                
-                /**
-                 * Tests whether the Processor currently has a worker thread running in the background. If not, the
-                 * application can be terminated safely; if so, a call must be made to stop() beforehard.
-                 */
-                
-                bool isBusy() const;
-                
-                /**
-                 * Saves state information about the current processing mode to the application settings so that they
-                 * can be restored upon the next run.
-                 */
-                
-                void saveState(Settings * settings) const;
-                
-                /**
-                 * Starts this Processor running in a new thread, and connects the signals of this thread to appropriate
-                 * slots on the main window.
-                 * @param mainWindow The main window that the Processor will update as it runs.
-                 */
-                
-                void start(ui::MainWindow * mainWindow);
-                
-                /**
-                 * Asynchronously puts the Processor into a stopped state (by interrupting any running worker thread(s)
-                 * that it may be using) and executes a provided callback once this has been achieved. Only one callback
-                 * can be queued in this manner at a time; calling stopAndThen() a second time will replace the callback
-                 * that was provided to the first call.
-                 * @param callback The callback to execute once the processor has been stopped.
-                 * @return @c true if the Processor was already stopped and @p callback was therefore executed already;
-                 * @c false if the Processor was busy and @p callback was therefore queued to be executed once it stops.
-                 */
-                
-                bool stopAndThen(std::function<void()> callback);
-                
-            private:
-                
-                /**
-                 * Creates a new thread of an appropriate type that will handle the processing that needs to be
-                 * performed, and makes any signal-slot connections that are specific to the dynamic type of this
-                 * thread. The calling function should take ownership of the returned thread.
-                 * @param mainWindow The main window that the thread will update as it runs.
-                 * @return The newly created thread, whose ownership passes to the calling function.
-                 */
-                
-                virtual ProcessorThread * createThread(ui::MainWindow * mainWindow) const = 0;
-                
-                /**
-                 * Gets the KConfig XT enum code that is used to identify the processing mode implemented by this
-                 * Processor.
-                 */
-                
-                virtual int settingsMode() const = 0;
-                
-                std::unique_ptr<FinishedCallback> m_finishedCallback = nullptr;
-                ProcessorThread * m_thread = nullptr;
+            /**
+             * Constructs a Processor with default state.
+             */
+            
+            Processor() = default;
+            
+            Processor(const Processor&) = delete;
+            Processor& operator=(const Processor&) = delete;
+            
+            Processor(Processor&&) = default;
+            Processor& operator=(Processor&&) = default;
+            
+            virtual ~Processor() = default;
+            
+            /**
+             * Tests whether the Processor currently has a worker thread running in the background. If not, the
+             * application can be terminated safely; if so, a call must be made to stop() beforehard.
+             */
+            
+            bool isBusy() const;
+            
+            /**
+             * Saves state information about the current processing mode to the application settings so that they can be
+             * restored upon the next run.
+             */
+            
+            void saveState(Settings * settings) const;
+            
+            /**
+             * Starts this Processor running in a new thread, and connects the signals of this thread to appropriate
+             * slots on the main window.
+             * @param mainWindow The main window that the Processor will update as it runs.
+             */
+            
+            void start(ui::MainWindow * mainWindow);
+            
+            /**
+             * Asynchronously puts the Processor into a stopped state (by interrupting any running worker thread(s) that
+             * it may be using) and executes a provided callback once this has been achieved. Only one callback can be
+             * queued in this manner at a time; calling stopAndThen() a second time will replace the callback that was
+             * provided to the first call.
+             * @param callback The callback to execute once the processor has been stopped.
+             * @return @c true if the Processor was already stopped and @p callback was therefore executed already;
+             * @c false if the Processor was busy and @p callback was therefore queued to be executed once it stops.
+             */
+            
+            bool stopAndThen(std::function<void()> callback);
+            
+        private:
+            
+            /**
+             * Creates a new thread of an appropriate type that will handle the processing that needs to be performed,
+             * and makes any signal-slot connections that are specific to the dynamic type of this thread. The calling
+             * function should take ownership of the returned thread.
+             * @param mainWindow The main window that the thread will update as it runs.
+             * @return The newly created thread, whose ownership passes to the calling function.
+             */
+            
+            virtual ProcessorThread * createThread(ui::MainWindow * mainWindow) const = 0;
+            
+            /**
+             * Gets the KConfig XT enum code that is used to identify the processing mode implemented by this
+             * Processor.
+             */
+            
+            virtual int settingsMode() const = 0;
+            
+            std::unique_ptr<FinishedCallback> m_finishedCallback = nullptr;
+            ProcessorThread * m_thread = nullptr;
         };
     }
 }

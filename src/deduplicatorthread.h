@@ -9,15 +9,15 @@ namespace myriad {
         //TODO:DOC
         
         class DeduplicatorThread : public ProcessorThread {
-            Q_OBJECT
+        Q_OBJECT
+        
+        public:
             
-            public:
-                
-                /**
-                 * @see ProcessorThread::ProcessorThread()
-                 */
-            
-                explicit DeduplicatorThread(ui::MainWindow * parent);
+            /**
+             * @see ProcessorThread::ProcessorThread()
+             */
+        
+            explicit DeduplicatorThread(ui::MainWindow * parent);
         };
     }
 }
