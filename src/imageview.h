@@ -33,7 +33,9 @@ namespace myriad {
             
         private:
             
-            class DetailsGroup;
+            class DetailsWidget;
+            class PreviewWidget;
+            
             struct Private;
             std::unique_ptr<Private> d;
         };
