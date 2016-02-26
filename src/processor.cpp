@@ -48,7 +48,7 @@ namespace myriad {
         }
         
         bool Processor::isBusy() const {
-            return m_thread->isRunning();
+            return m_thread && m_thread->isRunning();
         }
 
         void Processor::saveState(Settings * const settings) const {
