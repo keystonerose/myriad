@@ -116,12 +116,12 @@ namespace myriad {
         
         void ProcessorThread::run() {
             
-            emit(phaseChanged(Phase::SCANNING));
+            emit(phaseChanged(Phase::Scanning));
             emitInputCount(true);
             addInputs(m_mainWindow->inputs());
             emitInputCount(true);
             
-            emit(phaseChanged(Phase::HASHING));
+            emit(phaseChanged(Phase::Hashing));
             emit(hashingProgressChanged(0));
             hashImages();
         }

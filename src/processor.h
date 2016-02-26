@@ -21,15 +21,15 @@ namespace myriad {
         class ProcessorThread;
         
         /**
-         * Codes that identify what phase of execution Myriad is current in. @c IDLE is the state when no worker thread
+         * Codes that identify what phase of execution Myriad is current in. @c Idle is the state when no worker thread
          * is running; the other three states correspond to various actions performed by the worker thread.
          */
         
         enum class Phase {
-           IDLE,
-           SCANNING,
-           HASHING,
-           COMPARING
+           Idle,
+           Scanning,
+           Hashing,
+           Comparing
         };
         
         /**

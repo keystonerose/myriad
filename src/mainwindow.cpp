@@ -264,7 +264,7 @@ namespace myriad {
             void updateStatusMessage() {
                 
                 QString message;
-                if (m_phase == processing::Phase::IDLE) {
+                if (m_phase == processing::Phase::Idle) {
                     message = i18n("Ready.");
                 }
                 else {
@@ -272,15 +272,15 @@ namespace myriad {
                     QString action;
                     switch (m_phase) {
                         
-                        case processing::Phase::SCANNING:
+                        case processing::Phase::Scanning:
                             action = i18n("Scanning");
                             break;
                             
-                        case processing::Phase::HASHING:
+                        case processing::Phase::Hashing:
                             action = i18n("Hashing");
                             break;
                             
-                        case processing::Phase::COMPARING:
+                        case processing::Phase::Comparing:
                             action = i18n("Comparing");
                             break;
                             
@@ -323,7 +323,7 @@ namespace myriad {
             
             QString m_lastInputDir{QDir::homePath()};
             QRadioButton * m_lastModeRadioButton = nullptr;
-            processing::Phase m_phase = processing::Phase::IDLE;
+            processing::Phase m_phase = processing::Phase::Idle;
             std::unique_ptr<processing::Processor> m_processor = std::make_unique<processing::Merger>();
             QStandardItemModel m_queueModel{0, 1};
             Ui::MainWindow * const m_ui = new Ui::MainWindow;

@@ -49,13 +49,13 @@ namespace myriad {
             ImageInfo::Format formatFromMimeName(const QString& mimeName) {
                 
                 static const QHash<QString, ImageInfo::Format> formatsByMimeName{
-                    {"image/bmp",  ImageInfo::Format::BMP},
-                    {"image/gif",  ImageInfo::Format::GIF},
-                    {"image/jpeg", ImageInfo::Format::JPEG},
-                    {"image/png",  ImageInfo::Format::PNG}
+                    {"image/bmp",  ImageInfo::Format::Bmp},
+                    {"image/gif",  ImageInfo::Format::Gif},
+                    {"image/jpeg", ImageInfo::Format::Jpeg},
+                    {"image/png",  ImageInfo::Format::Png}
                 };
                 
-                return formatsByMimeName.contains(mimeName) ? formatsByMimeName[mimeName] : ImageInfo::Format::OTHER;
+                return formatsByMimeName.contains(mimeName) ? formatsByMimeName[mimeName] : ImageInfo::Format::Other;
             }
             
            /**
@@ -76,7 +76,7 @@ namespace myriad {
         struct ImageInfo::Data {
             
             qint64 fileSize  = 0;
-            Format format    = Format::OTHER;
+            Format format    = Format::Other;
             ulong64 hash     = 0;
             quint16 checksum = 0;
             
@@ -148,7 +148,7 @@ namespace myriad {
             // The pHash library only supports JPEG and BMP files, so if the image is not already in one of those
             // formats, a temporary bitmap file is created and used to calculate the hash value.
             
-            if (m_data->format == Format::JPEG || m_data->format == Format::BMP) {
+            if (m_data->format == Format::Jpeg || m_data->format == Format::Bmp) {
                 ph_dct_imagehash(path.toLatin1(), m_data->hash);
             }
             else {

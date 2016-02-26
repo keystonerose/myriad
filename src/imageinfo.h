@@ -26,15 +26,15 @@ namespace myriad {
              * Codes to be used in identifying the file format of an image. Certain file formats are relevant in
              * Myriad's processing logic (for example, in suggesting a resolution for a duplicate pair) but others are
              * not -- thus, the formats enumerated here are far from an exhaustive list of all the formats supported,
-             * and we provide an @c OTHER code accordingly.
+             * and we provide an @c Other code accordingly.
              */
             
             enum class Format {
-                BMP,
-                GIF,
-                JPEG,
-                PNG,
-                OTHER
+                Bmp,
+                Gif,
+                Jpeg,
+                Png,
+                Other
             };
             
             /**
