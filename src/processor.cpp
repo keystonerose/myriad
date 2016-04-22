@@ -68,7 +68,7 @@ namespace myriad {
             m_thread->start();
         }
         
-        bool Processor::stopAndThen(std::function<void()> callback) {
+        bool Processor::stopThen(std::function<void()> callback) {
             
             if (isBusy()) {
                 

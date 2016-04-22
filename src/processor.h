@@ -131,14 +131,14 @@ namespace myriad {
             /**
              * Asynchronously puts the Processor into a stopped state (by interrupting any running worker thread(s) that
              * it may be using) and executes a provided callback once this has been achieved. Only one callback can be
-             * queued in this manner at a time; calling stopAndThen() a second time will replace the callback that was
+             * queued in this manner at a time; calling stopThen() a second time will replace the callback that was
              * provided to the first call.
              * @param callback The callback to execute once the processor has been stopped.
              * @return @c true if the Processor was already stopped and @p callback was therefore executed already;
              * @c false if the Processor was busy and @p callback was therefore queued to be executed once it stops.
              */
             
-            bool stopAndThen(std::function<void()> callback);
+            bool stopThen(std::function<void()> callback);
             
         private:
             

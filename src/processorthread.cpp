@@ -68,6 +68,9 @@ namespace myriad {
             }
         }
         
+        void ProcessorThread::compareImages() {
+        }
+        
         void ProcessorThread::emitInputCount(const bool force) {
             
             // Since the input count changes very quickly, we wind up with a huge queue of backed-up signals if we emit
@@ -75,8 +78,8 @@ namespace myriad {
             // between emissions unless the force parameter is set (e.g. to ensure that a count is emitted once scanning
             // completes).
             
-            constexpr qint64 EMISSION_PERIOD = 20;
-            if (force || !m_countEmissionTimer.isValid() || m_countEmissionTimer.elapsed() >= EMISSION_PERIOD) {
+            constexpr qint64 EmissionPeriod = 20;
+            if (force || !m_countEmissionTimer.isValid() || m_countEmissionTimer.elapsed() >= EmissionPeriod) {
             
                 emit(inputCountChanged(inputFileCount(), inputFolderCount()));
                 m_countEmissionTimer.start();
@@ -124,6 +127,10 @@ namespace myriad {
             emit(phaseChanged(Phase::Hashing));
             emit(hashingProgressChanged(0));
             hashImages();
+            
+            emit(phaseChanged(Phase::Comparing));
+            emit(comparisonProgressChanged(0));
+            compareImages();
         }
     }
 }

@@ -55,6 +55,13 @@ namespace myriad {
         public slots:
             
             /**
+             * Displays the completion progress of Myriad's image comparison phase.
+             * @param progress The percentage completion to display.
+             */
+            
+            void setComparisonProgress(int progress);
+            
+            /**
              * Displays the completion progress of Myriad's image hashing processing phase.
              * @param progress The percentage completion to display.
              */

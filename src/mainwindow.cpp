@@ -359,13 +359,17 @@ namespace myriad {
         bool MainWindow::queryClose() {
             
             if (d->m_processor->isBusy()) {
-                d->m_processor->stopAndThen([this] {close();});
+                d->m_processor->stopThen([this] {close();});
                 return false;
             }
             else {
                 d->saveState();
                 return true;
             }
+        }
+        
+        void MainWindow::setComparisonProgress(int progress) {
+            d->m_ui->comparisonProgressBar->setValue(progress);
         }
         
         void MainWindow::setHashingProgress(int progress) {
