@@ -9,8 +9,9 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/james/development/projects/myriad/build
-Build Type=Debug
+Build Type=
 CMake Binary=file:///usr/bin/cmake
+Environment Profile=
 Install Directory=file:///home/james/development/kde-install
 
 [Defines And Includes][Compiler]

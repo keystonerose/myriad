@@ -64,6 +64,7 @@ namespace myriad {
             QObject::connect(m_thread, &ProcessorThread::phaseChanged, mainWindow, &ui::MainWindow::setPhase);
             QObject::connect(m_thread, &ProcessorThread::inputCountChanged, mainWindow, &ui::MainWindow::setInputCount);
             QObject::connect(m_thread, &ProcessorThread::hashingProgressChanged, mainWindow, &ui::MainWindow::setHashingProgress);
+            QObject::connect(m_thread, &ProcessorThread::comparisonProgressChanged, mainWindow, &ui::MainWindow::setComparisonProgress);
             
             m_thread->start();
         }

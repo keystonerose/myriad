@@ -3,9 +3,11 @@
 
 #include <QElapsedTimer>
 #include <QHash>
+#include <QMutex>
 #include <QSet>
 #include <QString>
 #include <QThread>
+#include <QWaitCondition>
 
 #include "imageinfo.h"
 
@@ -41,6 +43,13 @@ namespace myriad {
             explicit ProcessorThread(ui::MainWindow * parent);
             
             /**
+             * Causes the thread to continue its processing once an image duplication it previously detected (signalled
+             * via duplicateFound()) has been resolved.
+             */
+            
+            void resume();
+            
+            /**
              * Executes the thread by adding the targets specified in the main window and performing whatever
              * specific logic is specified by its dynamic type.
              */
@@ -55,6 +64,16 @@ namespace myriad {
              */
             
             void comparisonProgressChanged(int progress);
+            
+            /**
+             * Emitted when the processor thread encounters a pair of duplicate images and must await a resolution to
+             * the duplication before continuing. When this signal is emitted, the thread will pause until resume() is
+             * called.
+             * @param imageInfo1 A description of the first image in the duplicate pair.
+             * @param imageInfo2 A description of the second image in the duplicate pair.
+             */
+            
+            void duplicateFound(const ImageInfo& imageInfo1, const ImageInfo& imageInfo2);
             
             /**
              * Emitted when the percentage progress of the thread's image hash generation changes.
@@ -104,6 +123,14 @@ namespace myriad {
             void compareImages();
             
             /**
+             * Gets the number of comparison operations that will need to be performed by this thread in order to
+             * exhaustively check its target directory for visual duplicates.
+             * @return The number of comparisons that will be made.
+             */
+
+            int comparisonCount();
+            
+            /**
              * Emits the inputCountChanged() signal with appropriate values for the number of files and folders scanned
              * so far. This method may skip input count emissions if too many are requested too near each other in time;
              * to force an emission, set @p force to @c true.
@@ -135,7 +162,8 @@ namespace myriad {
             QHash<QString, ImageInfo> m_images;
             int m_inputFolderCount = 0;
             const ui::MainWindow * const m_mainWindow;
-            int m_lastHashingProgress = 0;
+            QMutex m_mutex;
+            QWaitCondition m_waitCond;
         };
     }
 }

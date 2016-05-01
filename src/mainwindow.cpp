@@ -162,7 +162,7 @@ namespace myriad {
                 connect(clearTargetsAction, &QAction::triggered, [this] {clearAllTargets();});
                 connect(processAction,      &QAction::triggered, [this] {m_processor->start(q);});
                 
-                // AFACT the new Qt signal/slot syntax (using member function pointers and/or lambdas) is not available
+                // AFAICT the new Qt signal/slot syntax (using member function pointers and/or lambdas) is not available
                 // for the KStandardAction binding functions. So we use the traditional SLOT() syntax.
                 
                 KStandardAction::quit(q, SLOT(close()), actions);

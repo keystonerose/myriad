@@ -56,7 +56,7 @@ namespace myriad {
              * otherwise.
              */
             
-            bool identical(const ImageInfo& lhs, const ImageInfo& rhs);
+            static bool identical(const ImageInfo& lhs, const ImageInfo& rhs);
             
             /**
              * Constructs a new ImageInfo object, which will be in an uninitialised state (i.e. calls to isValid() will
@@ -83,18 +83,19 @@ namespace myriad {
             qint64 fileSize() const;
             
             /**
-             * Tests whether the ImageInfo object has been initialised via a call to read(), whether by calling that
-             * method directly or by invoking the ImageInfo(const QString&) constructor.
-             */
-            
-            bool isValid() const;
-            
-            /**
              * Gets the height of the image described by this ImageInfo object, in pixels. Returns @c 0 if the object is
              * in an uninitialised state.
              */
             
             int height() const;
+            
+            /**
+             * Tests whether the ImageInfo object is in a null state. This will be the case from before the object has
+             * been initialised via a call to read() (either directly or by invoking the ImageInfo(const QString&)
+             * constructor) and after setNull() is called.
+             */
+            
+            bool isNull() const;
             
             /**
              * Populates this ImageInfo object by reading relevant information about a specified image file on disk and
@@ -103,6 +104,13 @@ namespace myriad {
              */
             
             void read(const QString& path);
+            
+            /**
+             * Sets the ImageInfo object to a null state. Until read() is next called, isNull() will return true, and
+             * all property accessors will return initial/default values.
+             */
+            
+            void setNull();
             
             /**
              * Gets the width of the image described by this ImageInfo object, in pixels. Returns @c 0 if the object is

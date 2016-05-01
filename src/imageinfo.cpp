@@ -106,29 +106,29 @@ namespace myriad {
         }
         
         qint64 ImageInfo::fileSize() const {
-            return isValid() ? m_data->fileSize : 0;
+            return isNull() ? 0 : m_data->fileSize;
         }
         
         bool ImageInfo::hasHash() const {
-            return m_data && m_data->hash != 0;
+            return !isNull() && m_data->hash != 0;
         }
         
         int ImageInfo::height() const {
-            return isValid() ? m_data->height : 0;
+            return isNull() ? 0 : m_data->height;
         }
         
         bool ImageInfo::identical(const ImageInfo& lhs, const ImageInfo& rhs) {
             
-            if (lhs.isValid() && rhs.isValid()) {
-                return m_data->checksum == rhs.m_data->checksum;
+            if (!lhs.isNull() && !rhs.isNull()) {
+                return lhs.m_data->checksum == rhs.m_data->checksum;
             }
             else {
                 return false;
             }
         }
         
-        bool ImageInfo::isValid() const {
-            return m_data != nullptr;
+        bool ImageInfo::isNull() const {
+            return m_data == nullptr;
         }
         
         void ImageInfo::read(const QString& path) {
@@ -164,9 +164,13 @@ namespace myriad {
                 }
             }
         }
+        
+        void ImageInfo::setNull() {
+            m_data = nullptr;
+        }
 
         int ImageInfo::width() const {
-            return isValid() ? m_data->width : 0;
+            return isNull() ? 0 : m_data->width;
         }
         
         QList<QByteArray> supportedMimeTypes() {

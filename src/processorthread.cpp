@@ -1,6 +1,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QMutexLocker>
 
 #include "imageinfo.h"
 #include "mainwindow.h"
@@ -24,6 +25,14 @@ namespace myriad {
                 QMimeDatabase mimeDb;
                 const auto mimeName = mimeDb.mimeTypeForFile(path).name();
                 return supportedMimeTypes().contains(mimeName.toLatin1());
+            }
+            
+            /**
+             * Calculates @p numerator / @p denominator as a percentage, rounded to the nearest 1%.
+             */
+            
+            int intPercentage(const int numerator, const int denominator) {
+                return static_cast<int>(100.0f * static_cast<float>(numerator) / static_cast<float>(denominator) + 0.5f);
             }
         }
         
@@ -69,6 +78,57 @@ namespace myriad {
         }
         
         void ProcessorThread::compareImages() {
+            
+            auto comparisonsMade = 0;
+            const auto totalComparisonCount = comparisonCount();
+            auto lastComparisonProgress = 0;
+            
+            auto iter1 = m_images.constBegin();
+            const auto end = m_images.constEnd();
+            
+            for (; iter1 != end && !isInterruptionRequested(); ++iter1) {
+                
+                const auto& imageInfo1 = iter1.value();
+                if (imageInfo1.isNull()) {
+                    continue;
+                }
+                
+                auto iter2 = iter1;
+                ++iter2;
+                
+                for (; iter2 != end && !isInterruptionRequested(); ++iter2) {
+                    
+                    const auto& imageInfo2 = iter2.value();
+                    if (imageInfo2.isNull()) {
+                        continue;
+                    }
+                    
+                    if (ImageInfo::difference(imageInfo1, imageInfo2) < 0.1) {
+                        QMutexLocker locker(&m_mutex);
+                        m_waitCond.wait(&m_mutex);
+                    }
+                    
+                    ++comparisonsMade;
+                    const auto progress = intPercentage(comparisonsMade, totalComparisonCount);
+                    if (progress > lastComparisonProgress) {
+                        emit(comparisonProgressChanged(progress));
+                        lastComparisonProgress = progress;
+                    }
+                    
+                    // It is possible for the image represented by imageInfo (and pointed to by iter1) to have been
+                    // deleted (and the ImageInfo object invalidated) while the thread was paused, so we check for this
+                    // case and move on to the next iteration of the outer loop if so.
+                    
+                    if (imageInfo1.isNull()) {
+                        break;
+                    }
+                }
+            }
+        }
+        
+        int ProcessorThread::comparisonCount() {
+            const auto imageCount = m_images.size();
+            return imageCount * (imageCount - 1) / 2;
         }
         
         void ProcessorThread::emitInputCount(const bool force) {
@@ -89,6 +149,7 @@ namespace myriad {
         void ProcessorThread::hashImages() {
             
             auto numImagesHashed = 0;
+            auto lastHashingProgress = 0;
             
             auto iter = m_images.begin();
             const auto end = m_images.end();
@@ -101,10 +162,10 @@ namespace myriad {
                 imageInfo.read(path);
                 ++numImagesHashed;
                 
-                auto progress = static_cast<int>(100.0f * static_cast<float>(numImagesHashed) / static_cast<float>(inputFileCount()) + 0.5f);
-                if (progress > m_lastHashingProgress) {
+                const auto progress = intPercentage(numImagesHashed, inputFileCount());
+                if (progress > lastHashingProgress) {
                     emit(hashingProgressChanged(progress));
-                    m_lastHashingProgress = progress;
+                    lastHashingProgress = progress;
                 }
             }
         }
@@ -115,6 +176,10 @@ namespace myriad {
         
         int ProcessorThread::inputFolderCount() const {
             return m_inputFolderCount;
+        }
+        
+        void ProcessorThread::resume() {
+            m_waitCond.wakeAll();
         }
         
         void ProcessorThread::run() {
